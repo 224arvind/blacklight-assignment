@@ -85,9 +85,13 @@ class userRank(View):
         uid = request.GET.get('uid', '')
         latest_user_info = get_latest_entries(UserInfo.objects.all())
         rank = 1
+        user_found = False
         for user_info in latest_user_info:
             if user_info.uid != uid:
                 rank += 1
             else:
+                user_found = True
                 break
+        if not user_found:
+            rank = -1
         return JsonResponse({'rank':rank})
